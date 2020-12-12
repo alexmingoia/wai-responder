@@ -1,0 +1,36 @@
+name:                wai-responder
+version:             0.1.0.0
+github:              "alexmingoia/wai-responder"
+license:             BSD3
+author:              "Alexander Charles Mingoia"
+maintainer:          "alex@alexmingoia.com"
+copyright:           "2020 Alexander Charles Mingoia"
+category:            "Web"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/alexmingoia/wai-responder#readme>
+
+dependencies:
+- base >= 4 && < 5
+- bytestring >= 0.10 && < 0.11
+- cookie >= 0.4 && < 0.5
+- either >= 5.0 && < 5.1
+- http-types >= 0.12 && < 0.13
+- text >= 1.2.3 && < 1.3
+- time >= 1.8 && < 1.9
+- wai >= 3.2 && < 3.3
+- wai-extra >= 3.0 && < 3.2
+- warp >= 3.3 && < 3.4
+
+library:
+  source-dirs: wai-responder

@@ -30,7 +30,7 @@ dependencies:
 - time >= 1.8 && < 1.9
 - wai >= 3.2 && < 3.3
 - wai-extra >= 3.0 && < 3.2
-- warp >= 3.3 && < 3.4
+- warp >= 3.2 && < 3.4
 
 library:
   source-dirs: wai-responder

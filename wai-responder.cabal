@@ -1,0 +1,47 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 7e4f7c5b25ed2e5785263df24ba0849b38ecadc34bf0548e760a8f66b2f63502
+
+name:           wai-responder
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/alexmingoia/wai-responder#readme>
+category:       Web
+homepage:       https://github.com/alexmingoia/wai-responder#readme
+bug-reports:    https://github.com/alexmingoia/wai-responder/issues
+author:         Alexander Charles Mingoia
+maintainer:     alex@alexmingoia.com
+copyright:      2020 Alexander Charles Mingoia
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/alexmingoia/wai-responder
+
+library
+  exposed-modules:
+      Network.Wai.Responder
+  other-modules:
+      Paths_wai_responder
+  hs-source-dirs:
+      wai-responder
+  build-depends:
+      base >=4 && <5
+    , bytestring >=0.10 && <0.11
+    , cookie >=0.4 && <0.5
+    , either >=5.0 && <5.1
+    , http-types >=0.12 && <0.13
+    , text >=1.2.3 && <1.3
+    , time >=1.8 && <1.9
+    , wai >=3.2 && <3.3
+    , wai-extra >=3.0 && <3.2
+    , warp >=3.3 && <3.4
+  default-language: Haskell2010

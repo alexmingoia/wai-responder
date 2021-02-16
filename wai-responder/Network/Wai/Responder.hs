@@ -54,8 +54,7 @@ import Web.Cookie
 
 data ParsedRequest
   = ParsedRequest
-      { reqPath :: Text,
-        reqParams :: [Param],
+      { reqParams :: [Param],
         reqFiles :: [File BL.ByteString],
         waiReq :: Request
       }
@@ -124,13 +123,13 @@ getMethod = decodeUtf8 . requestMethod <$> getRequest
 
 -- | Get the URL-decoded 'Request' path pieces separated by "/".
 getPath :: (MonadIO m) => Responder e m [Text]
-getPath = fmap urlDecodePlus . L.filter ("" /=) . T.splitOn "/" <$> getRawPath
+getPath = fmap urlDecodePlus . pathInfo . waiReq <$> getParsedReq
   where
     urlDecodePlus = decodeUtf8 . urlDecode True . encodeUtf8
 
 -- | Get the raw 'Request' path.
-getRawPath :: (MonadIO m) => Responder e m Text
-getRawPath = reqPath <$> getParsedReq
+getRawPath :: (MonadIO m) => Responder e m B.ByteString
+getRawPath = rawPathInfo . waiReq <$> getParsedReq
 
 -- | Get a request body parameter value.
 --
@@ -235,8 +234,7 @@ parseRequest max req = do
   (params, files) <- parseRequestBodyEx parseBodyOpts lbsBackEnd req
   return $
     ParsedRequest
-      { reqPath = decodeUtf8 (rawPathInfo req),
-        reqParams = params,
+      { reqParams = params,
         reqFiles = files,
         waiReq = req
       }

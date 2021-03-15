@@ -24,6 +24,7 @@ module Network.Wai.Responder
     ok204,
     html,
     plaintext,
+    json,
     attachment,
     send,
     FileInfo (..),

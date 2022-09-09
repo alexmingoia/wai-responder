@@ -47,7 +47,11 @@ module Network.Wai.Responder
     paramEither,
     paramMaybe,
     params,
-    queryParam,
+    bodyParam,
+    bodyParamMaybe,
+    bodyParamEither,
+    bodyParams,
+    bodyParam,
     queryParamMaybe,
     queryParamEither,
     queryParams,
@@ -200,6 +204,37 @@ paramMaybe name = do
 -- | Get all parameters from query, path, cookie, and body (in that order).
 params :: ResponderM s [Param]
 params = concatParams <$> parseBodyForm
+
+-- | Get a body parameter.
+--
+-- If no parameter is found or parameter fails to parse, an `HttpError` is thrown.
+bodyParam :: ParsableParam a => Text -> ResponderM s a
+bodyParam name = do
+  pM <- fmap snd . L.find ((==) name . fst) <$> bodyParams
+  maybe (throwM (missingParam name)) (either throwM pure . parseParam) pM
+
+-- | Get a body parameter or `HttpError` if missing or parse failure.
+bodyParamEither :: ParsableParam a => Text -> ResponderM s (Either HttpError a)
+bodyParamEither name = do
+  pM <- fmap snd . L.find ((==) name . fst) <$> bodyParams
+  return $ case pM of
+    Nothing ->
+      Left $ HttpError status422 ("missing parameter: " <> T.unpack name)
+    Just p -> parseParam p
+
+-- | Get an optional body parameter.
+--
+-- Returns `Nothing` for missing parameter.
+-- Throws `HttpError` on parse failure.
+bodyParamMaybe :: ParsableParam a => Text -> ResponderM s (Maybe a)
+bodyParamMaybe name = do
+  pM <- fmap snd . L.find ((==) name . fst) <$> bodyParams
+  maybe (pure Nothing) (either throwM (pure . Just) . parseParam) pM
+
+-- | Get all body parameters.
+bodyParams :: ResponderM s [Param]
+bodyParams = maybe [] getFormBodyParams . reqBody <$> parseBodyForm
+  where getFormBodyParams (FormBody (fps, _)) = fps
 
 -- | Get a query parameter.
 --
